@@ -1,0 +1,43 @@
+[project]
+name = "encoding-devops"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiohttp>=3.11.12",
+    "mcp>=1.2.1",
+    "python-dotenv>=1.0.1",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/encoding_devops"]
+
+[project.scripts]
+shutterscout = "encoding_devops.main:main"
+
+[tool.ruff]
+# Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default
+lint.select = ["E", "F", "I"]
+# Allow unused variables when underscore-prefixed
+lint.dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
+# Python version compatibility
+target-version = "py312"
+# Line length matches black's default
+line-length = 120
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+
+[dependency-groups]
+dev = [
+    "hatch>=1.14.0",
+    "pytest>=8.3.4",
+    "ruff>=0.9.5",
+]
