@@ -1,4 +1,3 @@
-import asyncio
 import logging
 import os
 import sys
@@ -6,7 +5,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from .server import EncodingServer
+from encoding_devops.server import mcp
 
 # Configure logging
 logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
@@ -36,17 +35,17 @@ def load_environment():
         raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
 
-async def main():
-    """Main entry point"""
+def main():
+    """Entry point for the MCP server"""
     try:
         load_environment()
+
         logger.info("Starting Encoding MCP Server")
-        server = EncodingServer()
-        await server.run()
+        mcp.run()
     except Exception as e:
         logger.error(f"Server error: {e}")
         sys.exit(1)
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    main()

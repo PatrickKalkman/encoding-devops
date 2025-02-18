@@ -6,7 +6,7 @@ readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "aiohttp>=3.11.12",
-    "mcp>=1.2.1",
+    "mcp[cli]>=1.2.1",
     "python-dotenv>=1.0.1",
 ]
 
@@ -18,7 +18,8 @@ build-backend = "hatchling.build"
 packages = ["src/encoding_devops"]
 
 [project.scripts]
-shutterscout = "encoding_devops.main:main"
+encoding_devops = "encoding_devops.main:main"
+
 
 [tool.ruff]
 # Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default

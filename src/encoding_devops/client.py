@@ -42,9 +42,10 @@ class EncodingClient:
 
         try:
             async with self.session.post(
-                "/auth/token", json={"client_id": self.client_id, "client_secret": self.client_secret}
+                "auth/authenticate", json={"email": self.client_id, "password": self.client_secret}
             ) as response:
                 response.raise_for_status()
+                logger.info("Successfully authenticated with encoding API")
                 data = await response.json()
                 self.token = data["access_token"]
                 # Set token expiry (subtract 5 minutes as buffer)
@@ -54,21 +55,13 @@ class EncodingClient:
             logger.error(f"Error refreshing token: {e}")
             raise
 
-    async def get_jobs(self, status: Optional[str] = None) -> list[dict]:
+    async def get_job(self, name: str) -> dict:
         """Get list of encoding jobs"""
         await self.ensure_token()
-        params = {"status": status} if status else {}
+        params = {"name": name}
 
         async with self.session.get(
-            "/jobs", params=params, headers={"Authorization": f"Bearer {self.token}"}
+            "/jobs/name/", params=params, headers={"Authorization": f"Bearer {self.token}"}
         ) as response:
-            response.raise_for_status()
-            return await response.json()
-
-    async def get_job(self, job_id: str) -> dict:
-        """Get specific job details"""
-        await self.ensure_token()
-
-        async with self.session.get(f"/jobs/{job_id}", headers={"Authorization": f"Bearer {self.token}"}) as response:
             response.raise_for_status()
             return await response.json()
