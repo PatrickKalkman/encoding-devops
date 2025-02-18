@@ -58,10 +58,8 @@ class EncodingClient:
     async def get_job(self, name: str) -> dict:
         """Get list of encoding jobs"""
         await self.ensure_token()
-        params = {"name": name}
-
         async with self.session.get(
-            "/jobs/name/", params=params, headers={"Authorization": f"Bearer {self.token}"}
+            f"/jobs/name/{name}", headers={"Authorization": f"Bearer {self.token}"}
         ) as response:
             response.raise_for_status()
             return await response.json()
