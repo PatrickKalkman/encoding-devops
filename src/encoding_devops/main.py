@@ -35,18 +35,23 @@ def load_environment():
         raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
 
-def main():
+import asyncio
+
+async def main():
     """Entry point for the MCP server"""
     try:
         load_environment()
         client = EncodingClient()
-        client.refresh_token()
-        client.get_job("test")
+        await client.refresh_token()
+        await client.get_job("test")
         logger.info("Starting Encoding MCP Server")
         mcp.run()
     except Exception as e:
         logger.error(f"Server error: {e}")
         sys.exit(1)
+
+if __name__ == "__main__":
+    asyncio.run(main())
 
 
 if __name__ == "__main__":
