@@ -60,5 +60,9 @@ async def main():
         sys.exit(1)
 
 
-if __name__ == "__main__":
+def entrypoint():
+    """Synchronous entrypoint for script execution"""
     asyncio.run(main())
+
+if __name__ == "__main__":
+    entrypoint()
