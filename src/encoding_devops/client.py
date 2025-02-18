@@ -1,10 +1,9 @@
-from loguru import logger
 import os
 from datetime import datetime, timedelta
 from typing import Optional
 
 import aiohttp
-
+from loguru import logger
 
 
 class EncodingClient:

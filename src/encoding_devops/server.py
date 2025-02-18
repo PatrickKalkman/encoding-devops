@@ -1,11 +1,9 @@
-from loguru import logger
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 
 from mcp.server.fastmcp import Context, FastMCP
 
 from encoding_devops.client import EncodingClient
-
 
 
 @asynccontextmanager
