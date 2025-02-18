@@ -36,6 +36,16 @@ def load_environment():
         raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
 
+async def run_server():
+    """Run the MCP server"""
+    if hasattr(mcp, "run_async"):
+        await mcp.run_async()  # If there's an async version
+    else:
+        # Run synchronous mcp.run() in a thread pool
+        loop = asyncio.get_event_loop()
+        await loop.run_in_executor(None, mcp.run)
+
+
 async def main():
     """Entry point for the MCP server"""
     try:
@@ -44,14 +54,10 @@ async def main():
         await client.refresh_token()
         await client.get_job("test")
         logger.info("Starting Encoding MCP Server")
-        mcp.run()
+        await run_server()
     except Exception as e:
         logger.error(f"Server error: {e}")
         sys.exit(1)
-
-
-if __name__ == "__main__":
-    asyncio.run(main())
 
 
 if __name__ == "__main__":
