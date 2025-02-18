@@ -42,10 +42,12 @@ class EncodingClient:
             async with self.session.post(
                 "auth/authenticate", json={"email": self.client_id, "password": self.client_secret}
             ) as response:
+                logger.debug(f"Refreshing access token: {response.status}")
+                logger.debug(f"Response: {await response.text()}")
                 response.raise_for_status()
                 logger.info("Successfully authenticated with encoding API")
                 data = await response.json()
-                self.token = data["access_token"]
+                self.token = data["token"]
                 # Set token expiry (subtract 5 minutes as buffer)
                 self.token_expiry = datetime.now() + timedelta(seconds=data["expires_in"] - 300)
                 logger.debug("Successfully refreshed access token")
