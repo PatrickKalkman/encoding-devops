@@ -5,6 +5,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 
+from encoding_devops.client import EncodingClient
 from encoding_devops.server import mcp
 
 # Configure loguru logging
@@ -38,7 +39,9 @@ def main():
     """Entry point for the MCP server"""
     try:
         load_environment()
-
+        client = EncodingClient()
+        client.refresh_token()
+        client.get_job("test")
         logger.info("Starting Encoding MCP Server")
         mcp.run()
     except Exception as e:
