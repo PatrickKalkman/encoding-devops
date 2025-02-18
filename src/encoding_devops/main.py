@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 from pathlib import Path
@@ -35,8 +36,6 @@ def load_environment():
         raise EnvironmentError(f"Missing required environment variables: {', '.join(missing_vars)}")
 
 
-import asyncio
-
 async def main():
     """Entry point for the MCP server"""
     try:
@@ -49,6 +48,7 @@ async def main():
     except Exception as e:
         logger.error(f"Server error: {e}")
         sys.exit(1)
+
 
 if __name__ == "__main__":
     asyncio.run(main())
