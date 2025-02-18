@@ -43,8 +43,6 @@ class EncodingClient:
             async with self.session.post(
                 "auth/authenticate", json={"email": self.client_id, "password": self.client_secret}
             ) as response:
-                logger.debug(f"Refreshing access token: {response.status}")
-                logger.debug(f"Response: {await response.text()}")
                 response.raise_for_status()
                 logger.info("Successfully authenticated with encoding API")
                 data = await response.json()
@@ -53,8 +51,6 @@ class EncodingClient:
                 decoded_token = jwt.decode(self.token, options={"verify_signature": False})
                 self.token_expiry = datetime.fromtimestamp(decoded_token["exp"])
 
-                logger.debug(f"Token expires at: {self.token_expiry}")
-                logger.debug("Successfully refreshed access token")
         except Exception as e:
             logger.error(f"Error refreshing token: {e}")
             raise
