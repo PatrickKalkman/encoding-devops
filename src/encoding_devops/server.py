@@ -6,7 +6,6 @@ from mcp.server.fastmcp import Context, FastMCP
 
 from encoding_devops.client import EncodingClient
 
-logger = logging.getLogger(__name__)
 
 
 @asynccontextmanager
