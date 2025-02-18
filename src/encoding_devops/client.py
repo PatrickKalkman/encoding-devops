@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 import os
 from datetime import datetime, timedelta
 from typing import Optional

@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 from contextlib import asynccontextmanager
 from typing import AsyncIterator
 

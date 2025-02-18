@@ -1,4 +1,4 @@
-import logging
+from loguru import logger
 import os
 import sys
 from pathlib import Path
@@ -7,9 +7,8 @@ from dotenv import load_dotenv
 
 from encoding_devops.server import mcp
 
-# Configure logging
-logging.basicConfig(level=logging.DEBUG, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
-logger = logging.getLogger(__name__)
+# Configure loguru logging
+logger.add(sys.stderr, format="{time} {level} {message}", level="DEBUG")
 
 # Ensure UTF-8 encoding on Windows
 if sys.platform == "win32" and os.environ.get("PYTHONIOENCODING") is None:
