@@ -1,8 +1,9 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from typing import Optional
 
 import aiohttp
+import jwt
 from loguru import logger
 
 
@@ -48,8 +49,11 @@ class EncodingClient:
                 logger.info("Successfully authenticated with encoding API")
                 data = await response.json()
                 self.token = data["token"]
-                # Set token expiry (subtract 5 minutes as buffer)
-                self.token_expiry = datetime.now() + timedelta(seconds=data["expires_in"] - 300)
+                # Decode JWT token to extract expiration time
+                decoded_token = jwt.decode(self.token, options={"verify_signature": False})
+                self.token_expiry = datetime.fromtimestamp(decoded_token["exp"])
+
+                logger.debug(f"Token expires at: {self.token_expiry}")
                 logger.debug("Successfully refreshed access token")
         except Exception as e:
             logger.error(f"Error refreshing token: {e}")
