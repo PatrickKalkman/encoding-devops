@@ -59,7 +59,7 @@ class EncodingClient:
         """Get list of encoding jobs"""
         await self.ensure_token()
         async with self.session.get(
-            f"/jobs/name/{name}", headers={"Authorization": f"Bearer {self.token}"}
+            f"api/jobs/name/{name}", headers={"Authorization": f"Bearer {self.token}"}
         ) as response:
             response.raise_for_status()
             return await response.json()
