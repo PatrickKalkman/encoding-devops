@@ -72,3 +72,12 @@ class EncodingClient:
         ) as response:
             response.raise_for_status()
             return await response.json()
+
+    async def get_clients(self) -> dict:
+        """Get list of all clients"""
+        await self.ensure_token()
+        async with self.session.get(
+            "clients", headers={"Authorization": f"Bearer {self.token}"}
+        ) as response:
+            response.raise_for_status()
+            return await response.json()
