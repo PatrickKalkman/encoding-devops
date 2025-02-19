@@ -5,10 +5,15 @@ from typing import AsyncIterator
 from loguru import logger
 from mcp.server.fastmcp import FastMCP
 
-__all__ = ['mcp']
-
 from encoding_devops.encoding_client import EncodingClient
 from encoding_devops.omdb_client import OMDBClient
+
+__all__ = ['mcp']
+
+# Create MCP instance first so tools can use it
+
+# Import tools after mcp is created
+from encoding_devops import tools  # noqa
 
 
 @dataclass
