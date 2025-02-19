@@ -87,3 +87,13 @@ class EncodingClient:
         ) as response:
             response.raise_for_status()
             return await response.json()
+
+    async def get_inprogress_jobs_count(self) -> int:
+        """Get count of jobs currently in progress"""
+        await self.ensure_token()
+        async with self.session.get(
+            "jobs/count/inprogress", headers={"Authorization": f"Bearer {self.token}"}
+        ) as response:
+            response.raise_for_status()
+            data = await response.json()
+            return data["count"]

@@ -57,3 +57,12 @@ async def get_clients(ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     clients_data = await app_ctx.client.get_clients()
     return str(clients_data)
+
+
+@mcp.tool()
+async def is_cluster_busy(ctx: Context) -> str:
+    """Check if the encoding cluster is busy (has jobs in progress)"""
+    app_ctx: AppContext = ctx.request_context.lifespan_context
+    jobs_count = await app_ctx.client.get_inprogress_jobs_count()
+    is_busy = jobs_count > 0
+    return f"Cluster is {'busy' if is_busy else 'not busy'} with {jobs_count} jobs in progress"
