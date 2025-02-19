@@ -5,7 +5,7 @@ from typing import AsyncIterator
 from loguru import logger
 from mcp.server.fastmcp import FastMCP
 
-from encoding_devops.client import EncodingClient
+from encoding_devops.encoding_client import EncodingClient
 
 
 @dataclass
