@@ -6,8 +6,8 @@ from loguru import logger
 from mcp.server.fastmcp import FastMCP
 
 from encoding_devops.encoding_client import EncodingClient
-from encoding_devops.omdb_client import OMDBClient
 from encoding_devops.mcp_instance import mcp
+from encoding_devops.omdb_client import OMDBClient
 
 
 @dataclass
