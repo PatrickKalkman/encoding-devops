@@ -10,13 +10,7 @@ from encoding_devops.server import mcp
 
 # Configure loguru logging
 logger.add(sys.stderr, format="{time} {level} {message}", level="DEBUG")
-logger.add(
-    "logs/encoding_devops.log",
-    rotation="10 MB",
-    retention="1 week",
-    format="{time:YYYY-MM-DD HH:mm:ss} | {level} | {message}",
-    level="DEBUG",
-)
+
 
 # Ensure UTF-8 encoding on Windows
 if sys.platform == "win32" and os.environ.get("PYTHONIOENCODING") is None:
