@@ -11,6 +11,7 @@ from encoding_devops.client import EncodingClient
 @dataclass
 class AppContext:
     """Application context with initialized resources"""
+
     client: EncodingClient
 
 
@@ -31,7 +32,7 @@ async def server_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
 
 
 # Create FastMCP server instance with lifespan management
-mcp = FastMCP("encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv"])
+mcp = FastMCP("encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru"])
 
 
 @mcp.tool()
