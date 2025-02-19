@@ -55,7 +55,7 @@ class EncodingClient:
             logger.error(f"Error refreshing token: {e}")
             raise
 
-    async def get_job(self, name: str) -> dict:
+    async def get_job_by_name(self, name: str) -> dict:
         """Get list of encoding jobs"""
         await self.ensure_token()
         async with self.session.get(

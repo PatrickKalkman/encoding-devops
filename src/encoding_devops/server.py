@@ -39,5 +39,5 @@ mcp = FastMCP("encoding-manager", lifespan=server_lifespan, dependencies=["aioht
 async def get_job_by_name(name: str, ctx: Context) -> str:
     """Get details of an encoding job by its name"""
     app_ctx: AppContext = ctx.request_context.lifespan_context
-    job_data = await app_ctx.client.get_job(name)
+    job_data = await app_ctx.client.get_job_by_name(name)
     return str(job_data)
