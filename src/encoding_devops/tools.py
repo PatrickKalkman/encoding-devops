@@ -34,3 +34,30 @@ async def is_cluster_busy(ctx: Context) -> str:
     jobs_count = await app_ctx.client.get_inprogress_jobs_count()
     is_busy = jobs_count > 0
     return f"Cluster is {'busy' if is_busy else 'not busy'} with {jobs_count} jobs in progress"
+
+
+@mcp.tool()
+async def search_movie(title: str, ctx: Context) -> str:
+    """
+    Search for a movie by title
+    
+    Args:
+        title: Movie title to search for
+    
+    Returns:
+        String representation of the search results
+    """
+    app_ctx: AppContext = ctx.request_context.lifespan_context
+    results = await app_ctx.omdb_client.search_movie(title)
+    
+    if not results.get("Search"):
+        return f"No movies found matching '{title}'"
+    
+    movies = results["Search"]
+    total = results.get("totalResults", len(movies))
+    
+    output = [f"Found {total} results for '{title}':"]
+    for movie in movies:
+        output.append(f"- {movie['Title']} ({movie['Year']}) - Type: {movie['Type']} - IMDB: {movie['imdbID']}")
+    
+    return "\n".join(output)
