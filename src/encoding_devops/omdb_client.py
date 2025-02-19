@@ -32,12 +32,12 @@ class OMDBClient:
     async def search_movie(self, title: str, page: int = 1, type_filter: str = "movie") -> dict:
         """
         Search for movies by title
-        
+
         Args:
             title: Movie title to search for
             page: Page number (1-100)
             type_filter: Type of result (movie, series, episode)
-        
+
         Returns:
             Dict containing search results
         """
@@ -45,14 +45,8 @@ class OMDBClient:
             await self.init_session()
 
         try:
-            params = {
-                "apikey": self.api_key,
-                "s": title,
-                "type": type_filter,
-                "page": str(page),
-                "r": "json"
-            }
-            
+            params = {"apikey": self.api_key, "s": title, "type": type_filter, "page": str(page), "r": "json"}
+
             async with self.session.get("/", params=params) as response:
                 response.raise_for_status()
                 data = await response.json()
@@ -72,9 +66,7 @@ class OMDBClient:
             await self.init_session()
 
         try:
-            async with self.session.get(
-                "/", params={"apikey": self.api_key, "i": imdb_id}
-            ) as response:
+            async with self.session.get("/", params={"apikey": self.api_key, "i": imdb_id}) as response:
                 response.raise_for_status()
                 data = await response.json()
                 if data.get("Response") == "False":
@@ -90,11 +82,11 @@ class OMDBClient:
         search_results = await self.search_movie(title)
         if not search_results.get("Search"):
             return 0.0
-            
+
         # Get the first movie's details
         first_movie = search_results["Search"][0]
         movie_data = await self.get_movie_details(first_movie["imdbID"])
-        
+
         try:
             return float(movie_data.get("imdbRating", 0))
         except (ValueError, TypeError):

@@ -1,3 +1,4 @@
-from .client import EncodingClient
+from .encoding_client import EncodingClient
+from .omdb_client import OMDBClient
 
-__all__ = ["EncodingClient"]
+__all__ = ["EncodingClient", "OMDBClient"]
