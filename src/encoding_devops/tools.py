@@ -37,7 +37,7 @@ async def is_cluster_busy(ctx: Context) -> str:
 
 
 @mcp.tool()
-async def get_latest_jobs(limit: int = 3, ctx: Context) -> str:
+async def get_latest_jobs(ctx: Context, limit: int = 3) -> str:
     """
     Get the most recent encoding jobs
     
