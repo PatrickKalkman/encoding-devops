@@ -3,17 +3,10 @@ from dataclasses import dataclass
 from typing import AsyncIterator
 
 from loguru import logger
-from mcp.server.fastmcp import FastMCP
 
 from encoding_devops.encoding_client import EncodingClient
 from encoding_devops.omdb_client import OMDBClient
-
-__all__ = ["mcp"]
-
-# Create MCP instance first so tools can use it
-
-# Import tools after mcp is created
-from encoding_devops import tools  # noqa
+from encoding_devops.mcp_instance import mcp
 
 
 @dataclass
@@ -43,6 +36,8 @@ async def server_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
         logger.info("Server lifespan cleanup completed")
 
 
-mcp = FastMCP(
-    "encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru", "cachetools"]
-)
+# Set the lifespan after it's defined
+mcp.lifespan = server_lifespan
+
+# Import tools after everything is set up
+import encoding_devops.tools  # noqa

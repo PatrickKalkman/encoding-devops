@@ -1,6 +1,6 @@
 from mcp.server.fastmcp import Context
 
-from encoding_devops.server import mcp
+from encoding_devops.mcp_instance import mcp
 from encoding_devops.server import AppContext
 
 
