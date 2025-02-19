@@ -8,7 +8,7 @@ from mcp.server.fastmcp import FastMCP
 from encoding_devops.encoding_client import EncodingClient
 from encoding_devops.omdb_client import OMDBClient
 
-__all__ = ['mcp']
+__all__ = ["mcp"]
 
 # Create MCP instance first so tools can use it
 
@@ -46,5 +46,3 @@ async def server_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
 mcp = FastMCP(
     "encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru", "cachetools"]
 )
-
-
