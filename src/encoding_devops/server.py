@@ -41,3 +41,11 @@ async def get_job_by_name(name: str, ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     job_data = await app_ctx.client.get_job_by_name(name)
     return str(job_data)
+
+
+@mcp.tool()
+async def get_job_tasks_by_id(job_id: str, ctx: Context) -> str:
+    """Get tasks for a specific job by its ID"""
+    app_ctx: AppContext = ctx.request_context.lifespan_context
+    tasks_data = await app_ctx.client.get_job_tasks_by_id(job_id)
+    return str(tasks_data)
