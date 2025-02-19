@@ -11,6 +11,7 @@ from encoding_devops.clients import EncodingClient, OMDBClient
 @dataclass
 class AppContext:
     """Application context with initialized resources"""
+
     client: EncodingClient
     omdb_client: OMDBClient
 
@@ -36,7 +37,5 @@ async def server_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
 
 # Create MCP instance that will be shared across the application
 mcp = FastMCP(
-    "encoding-manager",
-    lifespan=server_lifespan,
-    dependencies=["aiohttp", "python-dotenv", "loguru", "cachetools"]
+    "encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru", "cachetools"]
 )

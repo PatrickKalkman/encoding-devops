@@ -1,7 +1,6 @@
 from mcp.server.fastmcp import Context
 
-from encoding_devops.mcp_instance import mcp
-from encoding_devops.mcp_instance import AppContext
+from encoding_devops.mcp_instance import AppContext, mcp
 
 
 @mcp.tool()
@@ -68,19 +67,19 @@ async def search_movie(title: str, ctx: Context) -> str:
 async def get_movie_details(imdb_id: str, ctx: Context) -> str:
     """
     Get detailed information about a movie by its IMDB ID
-    
+
     Args:
         imdb_id: IMDB ID of the movie (e.g., 'tt0111161')
-    
+
     Returns:
         String representation of the movie details
     """
     app_ctx: AppContext = ctx.request_context.lifespan_context
     movie_data = await app_ctx.omdb_client.get_movie_details(imdb_id)
-    
+
     if not movie_data:
         return f"No movie found with IMDB ID: {imdb_id}"
-    
+
     # Format the movie details in a readable way
     details = [
         f"Title: {movie_data.get('Title', 'N/A')}",
@@ -90,7 +89,7 @@ async def get_movie_details(imdb_id: str, ctx: Context) -> str:
         f"Genre: {movie_data.get('Genre', 'N/A')}",
         f"Director: {movie_data.get('Director', 'N/A')}",
         f"Actors: {movie_data.get('Actors', 'N/A')}",
-        f"Plot: {movie_data.get('Plot', 'N/A')}"
+        f"Plot: {movie_data.get('Plot', 'N/A')}",
     ]
-    
+
     return "\n".join(details)
