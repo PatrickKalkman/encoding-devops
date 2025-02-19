@@ -97,3 +97,16 @@ class EncodingClient:
             response.raise_for_status()
             data = await response.json()
             return data["count"]
+
+    async def get_latest_jobs(self, limit: int = 3) -> dict:
+        """Get the latest encoding jobs
+        
+        Args:
+            limit: Number of jobs to return (default: 3)
+        """
+        await self.ensure_token()
+        async with self.session.get(
+            f"jobs/last/{limit}", headers={"Authorization": f"Bearer {self.token}"}
+        ) as response:
+            response.raise_for_status()
+            return await response.json()
