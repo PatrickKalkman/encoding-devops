@@ -6,7 +6,6 @@ from pathlib import Path
 from dotenv import load_dotenv
 from loguru import logger
 
-from encoding_devops.client import EncodingClient
 from encoding_devops.server import mcp
 
 # Configure loguru logging
@@ -50,10 +49,6 @@ async def main():
     """Entry point for the MCP server"""
     try:
         load_environment()
-        client = EncodingClient()
-        await client.refresh_token()
-        await client.get_job("test")
-        logger.info("Starting Encoding MCP Server")
         await run_server()
     except Exception as e:
         logger.error(f"Server error: {e}")
@@ -63,6 +58,7 @@ async def main():
 def entrypoint():
     """Synchronous entrypoint for script execution"""
     asyncio.run(main())
+
 
 if __name__ == "__main__":
     entrypoint()
