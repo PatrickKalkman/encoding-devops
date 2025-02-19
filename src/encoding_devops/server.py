@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import AsyncIterator
 
 from loguru import logger
+from mcp.server.fastmcp import FastMCP
 
 from encoding_devops.encoding_client import EncodingClient
 from encoding_devops.omdb_client import OMDBClient
