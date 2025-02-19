@@ -10,7 +10,15 @@ def movie_encoding_status(job_name: str | None = None) -> str:
     job_detail = f" for job: {job_name}" if job_name else ""
     return f"""Generating encoding status report{job_detail}:
 - Current cluster load
-- Active jobs with progress
+- Last 3 jobs with progress
 - Basic movie info for each job
 - Estimated completion times
 """
+
+
+@mcp.prompt("draft-email-failed-encoding-job")
+def email_failed_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
+    """
+    Returns a draft email to inform a client of a failed encoding job.
+    """
+    return ""
