@@ -98,7 +98,7 @@ class EncodingClient:
             data = await response.json()
             return data["count"]
 
-    async def get_latest_jobs(self, limit: int = 3) -> dict:
+    async def get_latest_jobs(self, limit: int) -> dict:
         """Get the latest encoding jobs
         
         Args:
