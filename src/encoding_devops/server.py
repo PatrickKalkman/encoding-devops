@@ -32,7 +32,7 @@ async def server_lifespan(server: FastMCP) -> AsyncIterator[AppContext]:
 
 
 # Create FastMCP server instance with lifespan management
-mcp = FastMCP("encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru"])
+mcp = FastMCP("encoding-manager", lifespan=server_lifespan, dependencies=["aiohttp", "python-dotenv", "loguru", "cachetools"])
 
 
 @mcp.tool()

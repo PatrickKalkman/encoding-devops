@@ -4,6 +4,7 @@ from typing import Optional
 
 import aiohttp
 import jwt
+from cachetools import TTLCache, cached
 from loguru import logger
 
 
@@ -73,8 +74,13 @@ class EncodingClient:
             response.raise_for_status()
             return await response.json()
 
+    # Create a TTL cache for the clients data
+    _clients_cache = TTLCache(maxsize=1, ttl=3600)  # Cache for 1 hour
+
+    @cached(_clients_cache)
     async def get_clients(self) -> dict:
-        """Get list of all clients"""
+        """Get list of all clients with caching"""
+        logger.debug("Fetching fresh clients data")
         await self.ensure_token()
         async with self.session.get(
             "clients", headers={"Authorization": f"Bearer {self.token}"}
