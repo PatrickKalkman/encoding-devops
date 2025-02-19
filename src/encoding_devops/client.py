@@ -63,3 +63,12 @@ class EncodingClient:
         ) as response:
             response.raise_for_status()
             return await response.json()
+
+    async def get_job_tasks_by_id(self, job_id: str) -> dict:
+        """Get tasks for a specific job by its ID"""
+        await self.ensure_token()
+        async with self.session.get(
+            f"jobs/{job_id}/tasks", headers={"Authorization": f"Bearer {self.token}"}
+        ) as response:
+            response.raise_for_status()
+            return await response.json()
