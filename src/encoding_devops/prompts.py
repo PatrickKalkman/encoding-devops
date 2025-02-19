@@ -28,11 +28,15 @@ def email_failed_encoding_job(job_name: str | None = None, client_name: str | No
 
 Dear {client_name},
 
-I hope this email finds you well. I am writing to inform you about an issue we've encountered with your encoding job "{job_name}".
+I hope this email finds you well. I am writing to inform you about an
+issue we've encountered with your encoding job "{job_name}".
 
-Unfortunately, the encoding process has failed to complete successfully. Our technical team has been automatically notified and is currently investigating the cause of the failure.
+Unfortunately, the encoding process has failed to complete successfully. Our technical team has been
+ automatically notified and is currently investigating the cause of the failure.
 
-We understand the importance of your project and are treating this with high priority. We will provide you with more detailed information about the cause and our resolution plan as soon as we have completed our initial investigation.
+We understand the importance of your project and are treating this with high priority.
+We will provide you with more detailed information about the cause and our
+resolution plan as soon as we have completed our initial investigation.
 
 Next steps:
 1. Our team is analyzing the failure logs
