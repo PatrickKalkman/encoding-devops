@@ -1,0 +1,5 @@
+/drop
+/add       src/encoding_devops/client.py
+/add       src/encoding_devops/main.py
+/add       src/encoding_devops/server.py
+/read-only /Users/patrickkalkman/aider/CONVENTIONS.md
