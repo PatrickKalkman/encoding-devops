@@ -77,16 +77,24 @@ class EncodingClient:
     # Create a TTL cache for the clients data
     _clients_cache = TTLCache(maxsize=1, ttl=3600)  # Cache for 1 hour
 
-    @cached(_clients_cache)
     async def get_clients(self) -> dict:
         """Get list of all clients with caching"""
+        # Check cache first
+        cache_key = "clients_data"
+        if cache_key in self._clients_cache:
+            logger.debug("Returning cached clients data")
+            return self._clients_cache[cache_key]
+
+        # If not in cache, fetch fresh data
         logger.debug("Fetching fresh clients data")
         await self.ensure_token()
         async with self.session.get(
             "clients", headers={"Authorization": f"Bearer {self.token}"}
         ) as response:
             response.raise_for_status()
-            return await response.json()
+            data = await response.json()
+            self._clients_cache[cache_key] = data
+            return data
 
     async def get_inprogress_jobs_count(self) -> int:
         """Get count of jobs currently in progress"""
