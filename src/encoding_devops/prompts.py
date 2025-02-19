@@ -50,3 +50,35 @@ We apologize for any inconvenience this may cause and appreciate your understand
 
 Best regards,
 Your Encoding Team"""
+
+
+@mcp.prompt("draft-email-redeliver-encoding-job")
+def email_redeliver_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
+    """
+    Returns a draft email to request content redelivery for an encoding job.
+    """
+    if not job_name or not client_name:
+        return "Error: Both job_name and client_name are required to generate the email."
+
+    return f"""Subject: Content Redelivery Request - {job_name}
+
+Dear {client_name},
+
+I hope this email finds you well. I am writing regarding your encoding job "{job_name}".
+
+We have encountered some issues with the source content for this job and need to request a redelivery 
+of the original materials. This will help ensure we can process your encoding job successfully.
+
+Action Required:
+1. Please reupload the original source content for "{job_name}"
+2. Ensure all files are complete and uncorrupted
+3. Use our secure file transfer system for the delivery
+4. Notify us once the upload is complete
+
+If you need access to our file transfer system or have any questions about the redelivery process, 
+please let us know and we'll provide immediate assistance.
+
+We appreciate your prompt attention to this matter and apologize for any inconvenience.
+
+Best regards,
+Your Encoding Team"""
