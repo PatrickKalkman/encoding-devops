@@ -40,29 +40,29 @@ async def is_cluster_busy(ctx: Context) -> str:
 async def get_latest_jobs(ctx: Context, limit: int = 3) -> str:
     """
     Get the most recent encoding jobs
-    
+
     Args:
         limit: Number of jobs to return (default: 3, max: 10)
-    
+
     Returns:
         String representation of the latest jobs
     """
     if not 1 <= limit <= 10:
         return "Error: Limit must be between 1 and 10 jobs"
-        
+
     app_ctx: AppContext = ctx.request_context.lifespan_context
     jobs_data = await app_ctx.client.get_latest_jobs(limit)
-    
+
     if not jobs_data:
         return "No recent encoding jobs found"
-        
+
     output = [f"Latest {limit} encoding jobs:"]
     for job in jobs_data:
         status = job.get("status", "Unknown")
         name = job.get("name", "Unnamed")
         progress = job.get("progress", 0)
         output.append(f"- {name}: {status} ({progress}% complete)")
-    
+
     return "\n".join(output)
 
 
