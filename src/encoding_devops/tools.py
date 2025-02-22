@@ -8,7 +8,7 @@ async def get_job_by_name(name: str, ctx: Context) -> str:
     """Get details of an encoding job by its name"""
     app_ctx: AppContext = ctx.request_context.lifespan_context
     job_data = await app_ctx.client.get_job_by_name(name)
-    return str(job_data)
+    return job_data
 
 
 @mcp.tool()
@@ -16,7 +16,7 @@ async def get_job_tasks_by_id(job_id: str, ctx: Context) -> str:
     """Get tasks for a specific job by its ID"""
     app_ctx: AppContext = ctx.request_context.lifespan_context
     tasks_data = await app_ctx.client.get_job_tasks_by_id(job_id)
-    return str(tasks_data)
+    return tasks_data
 
 
 @mcp.tool()
@@ -24,7 +24,7 @@ async def get_clients(ctx: Context) -> str:
     """Get list of all clients"""
     app_ctx: AppContext = ctx.request_context.lifespan_context
     clients_data = await app_ctx.client.get_clients()
-    return str(clients_data)
+    return clients_data
 
 
 @mcp.tool()
@@ -33,7 +33,11 @@ async def is_cluster_busy(ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     jobs_count = await app_ctx.client.get_inprogress_jobs_count()
     is_busy = jobs_count > 0
-    return f"Cluster is {'busy' if is_busy else 'not busy'} with {jobs_count} jobs in progress"
+    return {
+        "is_busy": is_busy,
+        "jobs_count": jobs_count,
+        "status": "busy" if is_busy else "not busy"
+    }
 
 
 @mcp.tool()
@@ -53,17 +57,11 @@ async def get_latest_jobs(limit: int, ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     jobs_data = await app_ctx.client.get_latest_jobs(limit)
 
-    if not jobs_data:
-        return "No recent encoding jobs found"
-
-    output = [f"Latest {limit} encoding jobs:"]
-    for job in jobs_data:
-        status = job.get("status", "Unknown")
-        name = job.get("name", "Unnamed")
-        progress = job.get("progress", 0)
-        output.append(f"- {name}: {status} ({progress}% complete)")
-
-    return "\n".join(output)
+    return {
+        "count": len(jobs_data) if jobs_data else 0,
+        "limit": limit,
+        "jobs": jobs_data if jobs_data else []
+    }
 
 
 @mcp.tool()
@@ -80,17 +78,11 @@ async def search_movie(title: str, ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     results = await app_ctx.omdb_client.search_movie(title)
 
-    if not results.get("Search"):
-        return f"No movies found matching '{title}'"
-
-    movies = results["Search"]
-    total = results.get("totalResults", len(movies))
-
-    output = [f"Found {total} results for '{title}':"]
-    for movie in movies:
-        output.append(f"- {movie['Title']} ({movie['Year']}) - Type: {movie['Type']} - IMDB: {movie['imdbID']}")
-
-    return "\n".join(output)
+    return {
+        "query": title,
+        "total_results": int(results.get("totalResults", 0)),
+        "movies": results.get("Search", [])
+    }
 
 
 @mcp.tool()
@@ -108,18 +100,6 @@ async def get_movie_details(imdb_id: str, ctx: Context) -> str:
     movie_data = await app_ctx.omdb_client.get_movie_details(imdb_id)
 
     if not movie_data:
-        return f"No movie found with IMDB ID: {imdb_id}"
-
-    # Format the movie details in a readable way
-    details = [
-        f"Title: {movie_data.get('Title', 'N/A')}",
-        f"Year: {movie_data.get('Year', 'N/A')}",
-        f"Rating: {movie_data.get('imdbRating', 'N/A')}/10",
-        f"Runtime: {movie_data.get('Runtime', 'N/A')}",
-        f"Genre: {movie_data.get('Genre', 'N/A')}",
-        f"Director: {movie_data.get('Director', 'N/A')}",
-        f"Actors: {movie_data.get('Actors', 'N/A')}",
-        f"Plot: {movie_data.get('Plot', 'N/A')}",
-    ]
-
-    return "\n".join(details)
+        return {"error": f"No movie found with IMDB ID: {imdb_id}"}
+    
+    return movie_data
