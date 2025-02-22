@@ -4,7 +4,7 @@ from typing import Optional
 
 import aiohttp
 import jwt
-from cachetools import TTLCache, cached
+from cachetools import TTLCache
 from loguru import logger
 
 
@@ -59,9 +59,7 @@ class EncodingClient:
     async def get_job_by_name(self, name: str) -> dict:
         """Get list of encoding jobs"""
         await self.ensure_token()
-        async with self.session.get(
-            f"jobs/name/{name}", headers={"Authorization": f"Bearer {self.token}"}
-        ) as response:
+        async with self.session.get(f"jobs/name/{name}", headers={"Authorization": f"Bearer {self.token}"}) as response:
             response.raise_for_status()
             return await response.json()
 
@@ -88,9 +86,7 @@ class EncodingClient:
         # If not in cache, fetch fresh data
         logger.debug("Fetching fresh clients data")
         await self.ensure_token()
-        async with self.session.get(
-            "clients", headers={"Authorization": f"Bearer {self.token}"}
-        ) as response:
+        async with self.session.get("clients", headers={"Authorization": f"Bearer {self.token}"}) as response:
             response.raise_for_status()
             data = await response.json()
             self._clients_cache[cache_key] = data
@@ -108,7 +104,7 @@ class EncodingClient:
 
     async def get_latest_jobs(self, limit: int) -> dict:
         """Get the latest encoding jobs
-        
+
         Args:
             limit: Number of jobs to return (default: 3)
         """

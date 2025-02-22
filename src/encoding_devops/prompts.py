@@ -49,7 +49,8 @@ If you have any immediate questions or concerns, please don't hesitate to reach 
 We apologize for any inconvenience this may cause and appreciate your understanding.
 
 Best regards,
-Your Encoding Team"""
+Your Encoding Team
+AION Media"""
 
 
 @mcp.prompt("draft-email-redeliver-encoding-job")
@@ -66,7 +67,7 @@ Dear {client_name},
 
 I hope this email finds you well. I am writing regarding your encoding job "{job_name}".
 
-We have encountered some issues with the source content for this job and need to request a redelivery 
+We have encountered some issues with the source content for this job and need to request a redelivery
 of the original materials. This will help ensure we can process your encoding job successfully.
 
 Action Required:
@@ -75,10 +76,11 @@ Action Required:
 3. Use our secure file transfer system for the delivery
 4. Notify us once the upload is complete
 
-If you need access to our file transfer system or have any questions about the redelivery process, 
+If you need access to our file transfer system or have any questions about the redelivery process,
 please let us know and we'll provide immediate assistance.
 
 We appreciate your prompt attention to this matter and apologize for any inconvenience.
 
 Best regards,
-Your Encoding Team"""
+Your Encoding Team
+AION Media"""

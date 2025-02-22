@@ -23,7 +23,6 @@ packages = ["src/encoding_devops"]
 [project.scripts]
 encoding_devops = "encoding_devops.main:entrypoint"
 
-
 [tool.ruff]
 # Enable the pycodestyle (`E`) and Pyflakes (`F`) rules by default
 lint.select = ["E", "F", "I"]
