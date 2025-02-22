@@ -1,3 +1,6 @@
+import webbrowser
+from urllib.parse import quote
+
 from mcp.server.fastmcp import Context
 
 from encoding_devops.mcp_instance import AppContext, mcp
@@ -91,3 +94,45 @@ async def get_movie_details(imdb_id: str, ctx: Context) -> str:
         return {"error": f"No movie found with IMDB ID: {imdb_id}"}
 
     return movie_data
+
+
+@mcp.tool()
+async def open_email(
+    body: str, to: str = "", subject: str = "", cc: str = "", bcc: str = "", ctx: Context = None
+) -> str:
+    """
+    Opens the default email client with your message ready to go
+
+    Args:
+        body: What you want to say in the email
+        to: Who to send it to (optional)
+        subject: Email subject line (optional)
+        cc: CC recipients (optional)
+        bcc: BCC recipients (optional)
+        ctx: MCP context
+
+    Returns:
+        str: Quick status message so you know it worked
+    """
+    # URL encode everything (handles special characters and spaces)
+    params = []
+
+    # Start with the body since it's required
+    params.append(f"body={quote(body)}")
+
+    # Add any optional fields that were provided
+    if subject:
+        params.append(f"subject={quote(subject)}")
+    if cc:
+        params.append(f"cc={quote(cc)}")
+    if bcc:
+        params.append(f"bcc={quote(bcc)}")
+
+    # Build the mailto URL - if we have a recipient, include it in the base URL
+    mailto_base = f"mailto:{quote(to)}?" if to else "mailto:?"
+    mailto_url = mailto_base + "&".join(params)
+
+    # Fire up the email client
+    webbrowser.open(mailto_url, new=1)
+
+    return "Ready to go! Your email client should be open with the template loaded."
