@@ -1,7 +1,7 @@
 from encoding_devops.mcp_instance import mcp
 
 
-@mcp.resource("movie-encoding-status")
+@mcp.resource("email://movie-encoding-status/{job_name}")
 def movie_encoding_status(job_name: str | None = None) -> str:
     """
     Returns a short overview of encoding jobs and cluster status.
@@ -16,14 +16,11 @@ def movie_encoding_status(job_name: str | None = None) -> str:
 """
 
 
-@mcp.resource("draft-email-failed-encoding-job")
+@mcp.resource("email://draft-email-failed-encoding-job/{job_name}/{client_name}")
 def email_failed_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
     """
     Returns a draft email to inform a client of a failed encoding job.
     """
-    if not job_name or not client_name:
-        return "Error: Both job_name and client_name are required to generate the email."
-
     return f"""Subject: Encoding Job Status Update - {job_name}
 
 Dear {client_name},
@@ -49,18 +46,14 @@ If you have any immediate questions or concerns, please don't hesitate to reach 
 We apologize for any inconvenience this may cause and appreciate your understanding.
 
 Best regards,
-Your Encoding Team
-AION Media"""
+Your Encoding Team"""
 
 
-@mcp.resource("draft-email-redeliver-encoding-job")
+@mcp.resource("email://draft-email-redeliver-encoding-job/{job_name}/{client_name}")
 def email_redeliver_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
     """
     Returns a draft email to request content redelivery for an encoding job.
     """
-    if not job_name or not client_name:
-        return "Error: Both job_name and client_name are required to generate the email."
-
     return f"""Subject: Content Redelivery Request - {job_name}
 
 Dear {client_name},
@@ -82,5 +75,4 @@ please let us know and we'll provide immediate assistance.
 We appreciate your prompt attention to this matter and apologize for any inconvenience.
 
 Best regards,
-Your Encoding Team
-AION Media"""
+Your Encoding Team"""
