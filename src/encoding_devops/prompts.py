@@ -1,7 +1,7 @@
 from encoding_devops.mcp_instance import mcp
 
 
-@mcp.prompt("movie-encoding-status")
+@mcp.resource("movie-encoding-status")
 def movie_encoding_status(job_name: str | None = None) -> str:
     """
     Returns a short overview of encoding jobs and cluster status.
@@ -16,7 +16,7 @@ def movie_encoding_status(job_name: str | None = None) -> str:
 """
 
 
-@mcp.prompt("draft-email-failed-encoding-job")
+@mcp.resource("draft-email-failed-encoding-job")
 def email_failed_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
     """
     Returns a draft email to inform a client of a failed encoding job.
@@ -53,7 +53,7 @@ Your Encoding Team
 AION Media"""
 
 
-@mcp.prompt("draft-email-redeliver-encoding-job")
+@mcp.resource("draft-email-redeliver-encoding-job")
 def email_redeliver_encoding_job(job_name: str | None = None, client_name: str | None = None) -> str:
     """
     Returns a draft email to request content redelivery for an encoding job.
