@@ -33,11 +33,7 @@ async def is_cluster_busy(ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     jobs_count = await app_ctx.client.get_inprogress_jobs_count()
     is_busy = jobs_count > 0
-    return {
-        "is_busy": is_busy,
-        "jobs_count": jobs_count,
-        "status": "busy" if is_busy else "not busy"
-    }
+    return {"is_busy": is_busy, "jobs_count": jobs_count, "status": "busy" if is_busy else "not busy"}
 
 
 @mcp.tool()
@@ -57,11 +53,7 @@ async def get_latest_jobs(limit: int, ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     jobs_data = await app_ctx.client.get_latest_jobs(limit)
 
-    return {
-        "count": len(jobs_data) if jobs_data else 0,
-        "limit": limit,
-        "jobs": jobs_data if jobs_data else []
-    }
+    return {"count": len(jobs_data) if jobs_data else 0, "limit": limit, "jobs": jobs_data if jobs_data else []}
 
 
 @mcp.tool()
@@ -78,11 +70,7 @@ async def search_movie(title: str, ctx: Context) -> str:
     app_ctx: AppContext = ctx.request_context.lifespan_context
     results = await app_ctx.omdb_client.search_movie(title)
 
-    return {
-        "query": title,
-        "total_results": int(results.get("totalResults", 0)),
-        "movies": results.get("Search", [])
-    }
+    return {"query": title, "total_results": int(results.get("totalResults", 0)), "movies": results.get("Search", [])}
 
 
 @mcp.tool()
@@ -101,5 +89,5 @@ async def get_movie_details(imdb_id: str, ctx: Context) -> str:
 
     if not movie_data:
         return {"error": f"No movie found with IMDB ID: {imdb_id}"}
-    
+
     return movie_data
